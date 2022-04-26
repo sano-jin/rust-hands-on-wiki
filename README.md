@@ -238,6 +238,23 @@ You will get `This is a test` if it goes fine.
 In this section, we will extend the static server to contents management server.
 We will add post, delete method to make it CRUD.
 
+### API design
+
+- GET `/page/xxxxxx`
+  - html ページのレスポンスを返す
+  - サーバ上のファイルから読み込む
+- GET `/edit?path=<Path to the page">`
+  - 編集用の markdown を返す
+  - サーバ上のファイルから読み込む
+- POST /edit
+  - body: `{path:"Path to the page", body: "The updated markdown"}`
+  - markdown を投げ，それで /xxxxxx.html を更新する
+  - そのページがもともと存在しない場合は新しく作る．
+  - サーバ上のファイルに書き出しておく
+- DELETE `/edit?path=<Path to the page>`
+  - /xxxxxx.html を消去する
+  - サーバ上のファイルは消去する
+
 ### Add dependencies
 
 Add some dependencies to handle json.
@@ -246,6 +263,7 @@ Add some dependencies to handle json.
 json = "0.12"
 serde = { version = "1.0", features = ["derive"] } # to serialize/deserialize
 serde_json = "1.0"
+urlencoding = "2.1.0" # For encoding the filename
 ```
 
 ### Creating a file and a directory
