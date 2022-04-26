@@ -1,6 +1,3 @@
 /target
 
-/public/pages/*
-/public/edit/*
-/public/index
-/public/index_ul
+/public/*
