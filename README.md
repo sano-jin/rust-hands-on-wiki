@@ -526,15 +526,50 @@ async fn delete(item: web::Query<ReqObj>) -> Result<HttpResponse, Error> {
 }
 ```
 
-### GET the file
+### Handling GET request to the pages
 
-route the GET request to pages
+not serving files but viewing html.
+TODO: add here
 
 ### Test
 
-test with curl
+Run
 
-## Client
+```sh
+cargo run
+```
+
+#### POST
+
+Test it with
+
+```sh
+curl -H "content-type: application/json" -kX POST -d \
+    "{\"path\": \"filename\", \"body\": \"new contents\"}" \
+        https://localhost:8443/edit
+```
+
+and then check with
+
+```sh
+curl -kX GET https://127.0.0.1:8443/files/pages/filename
+```
+
+#### DELETE
+
+Test it with
+
+```sh
+curl -kX DELETE "https://localhost:8443/edit?path=<filename>"
+```
+
+and then check with
+
+```sh
+curl -kX GET https://127.0.0.1:8443/files/pages/filename
+```
+
+## Client-side integration
 
 Add JavaScript to jump to the editor and to update the edited page.
 
