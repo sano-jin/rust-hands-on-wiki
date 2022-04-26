@@ -384,7 +384,6 @@ Therefore, we firstly add `struct` deriving `Serialize` and `Deserialize` to/fro
 #[derive(Debug, Serialize, Deserialize)]
 struct QueryPath {
     path: String,
-
 }
 ```
 
