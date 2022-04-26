@@ -1,6 +1,6 @@
-wiki.rs
+Preparation in progress...
 
-A simple wiki created with Rust from scratch.
+A hands on tutorial to make a simple wiki with Rust.
 
 # How to create a own wiki from scrarch
 
