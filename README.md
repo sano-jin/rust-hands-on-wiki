@@ -19,7 +19,7 @@ rustup update
 
 ## Implement Https server
 
-[Here are sample source](/https-server)
+[Here are the sample source](/https-server)
 
 In this section, we implement a simple https server that returns a constant string message.
 
@@ -150,7 +150,7 @@ You will get `Welcome!` if it goes fine.
 
 ## Static file server
 
-[Here are sample source](/static-file-server)
+[Here are the sample source](/static-file-server)
 
 In this section, we let the server to desplay the files at `/public/<filename>`
 if the user access `/files/<filename>`.
@@ -233,7 +233,7 @@ You will get `This is a test` if it goes fine.
 
 ## Contents management server
 
-[Here are sample source](/static-file-server)
+[Here are the sample source](/contents-management-server)
 
 In this section, we will extend the static server to contents management server.
 We will add post, delete method to enable CRUD (Create, Read, Update and Delete).
@@ -439,6 +439,8 @@ which should not work (file not found)
 
 ## Markdown parsing and generating html
 
+[Here are the sample source](/simple-wiki-backend)
+
 In this section, we parse the posted markdown and convert it to a html file.
 
 We will be saving the markdown file in `/public/edit` directory
@@ -453,11 +455,37 @@ We will be using `pulldown_cmark` to convert markdown to html.
 pulldown-cmark = { version = "0.9.1", default-features = false }
 ```
 
-### Convert markdown to html
-
-add the converter form markdown to html to the `post_edited` function.
+and denote to use it in `src/main.rs`.
 
 ```rust
+// src/main.rs
+
+// Newly added pulldown_cmark
+use pulldown_cmark::{html, Options, Parser};
+```
+
+### Convert markdown to html at the POST request
+
+Add the converter form markdown to html to the `post` function.
+
+```rust
+/// Create and Update the file with POST method
+async fn post(item: web::Json<NewPageObj>) -> Result<HttpResponse, Error> {
+    println!("post {:?}", item);
+
+    // Update the file with the given contents
+    let path: PathBuf = get_path("public/edit", &item.path);
+    let mut file = File::create(&path)?;
+    file.write_all(item.body.as_bytes())?;
+
+    // Set parser options
+    let mut options = Options::empty();
+    options.insert(Options::ENABLE_STRIKETHROUGH);
+    options.insert(Options::ENABLE_TABLES);
+    options.insert(Options::ENABLE_FOOTNOTES);
+    options.insert(Options::ENABLE_TASKLISTS);
+    options.insert(Options::ENABLE_SMART_PUNCTUATION);
+    options.insert(Options::ENABLE_HEADING_ATTRIBUTES);
 
     // Parse the given markdown with the pulldown_cmark parser
     println!("parsing the given markdown with the pulldown_cmark parser");
@@ -466,7 +494,41 @@ add the converter form markdown to html to the `post_edited` function.
     html::push_html(&mut html_buf, parser);
     println!("parsed: {}", html_buf);
 
+    // Update the file with the given contents
+    let path: PathBuf = get_path("public/pages", &item.path);
+    let mut file = File::create(&path)?;
+    file.write_all(html_buf.as_bytes())?;
+
+    // TODO: navigate to the new page created
+    Ok(HttpResponse::Ok().json("created")) // <- send json response
+}
 ```
+
+### Delete both the markdown and the html files
+
+Delete both the markdown and the html file at the DELETE request.
+
+```rust
+/// Delete the file with DELETE method
+async fn delete(item: web::Query<ReqObj>) -> Result<HttpResponse, Error> {
+    println!("delete ? {:?}", item);
+
+    // delete the markdown file
+    let path: PathBuf = get_path("public/edit", &item.path);
+    std::fs::remove_file(&path)?;
+
+    // delete the html file
+    let path: PathBuf = get_path("public/pages", &item.path);
+    std::fs::remove_file(&path)?;
+
+    // TODO: navigate to the root page
+    Ok(HttpResponse::Ok().json("deleted"))
+}
+```
+
+### GET the file
+
+route the GET request to pages
 
 ### Test
 
