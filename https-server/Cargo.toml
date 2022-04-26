@@ -1,0 +1,11 @@
+[package]
+name = "https-server"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+actix-web = { version = "4", features = ["openssl"]   } # Use actix-web to implement a backend server
+env_logger = "0.9" # for logging
+openssl = "0.10" # for TLS

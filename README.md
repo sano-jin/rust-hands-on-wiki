@@ -2,67 +2,42 @@ wiki.rs
 
 A simple wiki created with Rust from scratch.
 
-![Demo](/docs/wiki-rs-demo.png)
-
-# API design
-
-## Front
-
-- 普通にアクセスして見る．
-- 今見ているページの markdown を編集して，それでページを更新する．
-  - edit button
-- 新しいページの markdown を編集して，それでページを更新する．
-  - create button
-
-## Backend API
-
-- GET `/page/xxxxxx`
-  - html ページのレスポンスを返す
-  - サーバ上のファイルから読み込む
-- GET `/edit?path=<Path to the page">`
-  - 編集用の markdown を返す
-  - サーバ上のファイルから読み込む
-- POST /edit
-  - body: `{path:"Path to the page", body: "The updated markdown"}`
-  - markdown を投げ，それで /xxxxxx.html を更新する
-  - そのページがもともと存在しない場合は新しく作る．
-  - サーバ上のファイルに書き出しておく
-- DELETE `/edit?path=<Path to the page>`
-  - /xxxxxx.html を消去する
-  - サーバ上のファイルは消去する
-
-## 構成
-
 # How to create a own wiki from scrarch
 
 ## Prerequisties
 
-Install Cargo
+Install Cargo.
+See <https://www.rust-lang.org/tools/install> to setup rustup and cargo.
+
+### Update rust
+
+Do not forget to update.
+
+```sh
+rustup update
+```
 
 ## Implement Https server
+
+[Here are sample source](/https-server)
 
 In this section, we implement a simple https server that returns a constant string message.
 
 TODO: Modify this to firstly implement a http server
 (not implementing https from the start)
 
-### Update rust
-
-```sh
-rustup update
-```
-
 ### Create a new project
 
 ```sh
-cargo new wiki-rs
-cd wiki.rs
+cargo new wiki-rs # create a new rust project named wiki-rs
+cd wiki-rs
 ```
 
 ### Enable CA
 
 See <https://github.com/actix/examples/tree/master/https-tls/openssl> and
-follow the instructions on README.md to enable CA
+follow the instructions on README.md to enable CA.
+We will be using [mkcert](https://github.com/FiloSottile/mkcert).
 
 1. use local CA
 
@@ -73,7 +48,7 @@ follow the instructions on README.md to enable CA
 2. generate own cert/private key
 
    ```sh
-   mkcert -install
+   mkcert 127.0.0.1
    ```
 
    rename the `127.0.0.1-key.pem` file with `key.pem` and
@@ -89,12 +64,11 @@ and add dependency
 ```toml
 # Cargo.toml
 [package]
-name = "wiki-rs"
-version = "0.1.0"
-edition = "2021"
+name = "wiki-rs" # The name of the project
+version = "0.1.0" # The version of the project
+edition = "2021" # The version of the rust we will be using
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
+# Add the following dependency
 [dependencies]
 actix-web = { version = "4", features = ["openssl"]  } # Use actix-web to implement a backend server
 env_logger = "0.9" # for logging
@@ -104,6 +78,7 @@ openssl = "0.10" # for TLS
 ### Implement with actix-web
 
 Implement `src/main.rs`
+following <https://github.com/actix/examples/blob/master/https-tls/openssl/src/main.rs>.
 
 ```rust
 // src/main.rs
@@ -135,6 +110,7 @@ async fn main() -> io::Result<()> {
         .unwrap();
     builder.set_certificate_chain_file("cert.pem").unwrap();
 
+    // Start http(s) server
     HttpServer::new(|| {
         App::new()
             // enable logger
@@ -170,11 +146,14 @@ with the other terminal.
 
 or access <https://127.0.0.1:8443/index.html> on browser.
 
-You will get `Welcome!` if it runs fine.
+You will get `Welcome!` if it goes fine.
 
-## Add static files
+## Static file server
 
-In this section, we let the server to desplay the files in `/public` directory.
+[Here are sample source](/static-server)
+
+In this section, we let the server to desplay the files at `/public/<filename>`
+if the user access `/files/<filename>`.
 i.e. static server.
 
 See <https://actix.rs/docs/static-files/>
@@ -194,7 +173,7 @@ in the dependency list in the `Cargo.toml`.
 Add
 
 ```rust
-use actix_files as fs;
+use actix_files;
 ```
 
 and add
@@ -207,8 +186,8 @@ and add
 
             // with path parameters
             // **Newly added here**
-            // GET /pages/**/*.html and return the file /public/**/*.html
-            .service(fs::Files::new("/pages", "public").show_files_listing())
+            // GET /files/**/*.html and return the file /public/**/*.html
+            .service(fs::Files::new("/files", "public").show_files_listing())
 
             // register simple handler, handle all methods
             .service(web::resource("/index.html").to(index))
@@ -231,11 +210,28 @@ create and add some test files in `/public` directory
 ```sh
 mkdir public
 cd public
-echo "This is a test" > index.html
 echo "This is a test" > test.html
 ```
 
-## Contents server
+### Run the backend and access
+
+```sh
+cargo run
+```
+
+and
+
+```sh
+curl https://127.0.0.1:8443/files/test.html
+```
+
+with the other terminal.
+
+or access <https://127.0.0.1:8443/files/test.html> on browser.
+
+You will get `This is a test` if it goes fine.
+
+## Contents management server
 
 In this section, we will extend the static server to contents management server.
 We will add post, delete method to make it CRUD.
@@ -436,3 +432,34 @@ Using fetch API.
 Add a list of recent updated pages.
 
 Store `recent_updates` the list of the title of the recent updated files.
+
+# Memo
+
+![Demo](/docs/wiki-rs-demo.png)
+
+# API design
+
+## Front
+
+- 普通にアクセスして見る．
+- 今見ているページの markdown を編集して，それでページを更新する．
+  - edit button
+- 新しいページの markdown を編集して，それでページを更新する．
+  - create button
+
+## Backend API
+
+- GET `/page/xxxxxx`
+  - html ページのレスポンスを返す
+  - サーバ上のファイルから読み込む
+- GET `/edit?path=<Path to the page">`
+  - 編集用の markdown を返す
+  - サーバ上のファイルから読み込む
+- POST /edit
+  - body: `{path:"Path to the page", body: "The updated markdown"}`
+  - markdown を投げ，それで /xxxxxx.html を更新する
+  - そのページがもともと存在しない場合は新しく作る．
+  - サーバ上のファイルに書き出しておく
+- DELETE `/edit?path=<Path to the page>`
+  - /xxxxxx.html を消去する
+  - サーバ上のファイルは消去する
