@@ -19,7 +19,7 @@ rustup update
 
 ## Implement Https server
 
-[Here are the sample source](/https-server)
+[Here are the sample source](https://github.com/sano-jin/rust-hands-on-wiki/tree/master/https-server)
 
 In this section, we implement a simple https server that returns a constant string message.
 
@@ -150,7 +150,7 @@ You will get `Welcome!` if it goes fine.
 
 ## Static file server
 
-[Here are the sample source](/static-file-server)
+[Here are the sample source](https://github.com/sano-jin/rust-hands-on-wiki/tree/master/static-file-server)
 
 In this section, we let the server to desplay the files at `/public/<filename>`
 if the user access `/files/<filename>`.
@@ -233,7 +233,7 @@ You will get `This is a test` if it goes fine.
 
 ## Contents management server
 
-[Here are the sample source](/contents-management-server)
+[Here are the sample source](https://github.com/sano-jin/rust-hands-on-wiki/tree/master/contents-management-server)
 
 In this section, we will extend the static server to contents management server.
 We will add post, delete method to enable CRUD (Create, Read, Update and Delete).
@@ -438,7 +438,7 @@ which should not work (file not found)
 
 ## Markdown parsing and generating html
 
-[Here are the sample source](/simple-wiki-backend)
+[Here are the sample source](https://github.com/sano-jin/rust-hands-on-wiki/tree/master/simple-wiki-backend)
 
 In this section, we parse the posted markdown and convert it to a html file.
 
