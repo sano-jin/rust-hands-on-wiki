@@ -150,7 +150,7 @@ You will get `Welcome!` if it goes fine.
 
 ## Static file server
 
-[Here are sample source](/static-server)
+[Here are sample source](/static-file-server)
 
 In this section, we let the server to desplay the files at `/public/<filename>`
 if the user access `/files/<filename>`.
@@ -233,6 +233,8 @@ You will get `This is a test` if it goes fine.
 
 ## Contents management server
 
+[Here are sample source](/static-file-server)
+
 In this section, we will extend the static server to contents management server.
 We will add post, delete method to make it CRUD.
 
@@ -242,7 +244,7 @@ Add some dependencies to handle json.
 
 ```toml
 json = "0.12"
-serde = { version = "1.0", features = ["derive"]  }
+serde = { version = "1.0", features = ["derive"] } # to serialize/deserialize
 serde_json = "1.0"
 ```
 
