@@ -236,22 +236,20 @@ You will get `This is a test` if it goes fine.
 [Here are sample source](/static-file-server)
 
 In this section, we will extend the static server to contents management server.
-We will add post, delete method to make it CRUD.
+We will add post, delete method to enable CRUD (Create, Read, Update and Delete).
 
 ### API design
 
-- GET `/page/xxxxxx`
+- Read: GET `/files/xxxxxx`
   - html ページのレスポンスを返す
   - サーバ上のファイルから読み込む
-- GET `/edit?path=<Path to the page">`
-  - 編集用の markdown を返す
-  - サーバ上のファイルから読み込む
-- POST /edit
-  - body: `{path:"Path to the page", body: "The updated markdown"}`
+  - We have already implemented this in the previous section.
+- Create and Update: POST /edit
+  - body: `{path:"Path to the page", body: "The updated file"}`
   - markdown を投げ，それで /xxxxxx.html を更新する
   - そのページがもともと存在しない場合は新しく作る．
   - サーバ上のファイルに書き出しておく
-- DELETE `/edit?path=<Path to the page>`
+- Delete: DELETE `/edit?path=<Path to the page>`
   - /xxxxxx.html を消去する
   - サーバ上のファイルは消去する
 
@@ -266,52 +264,6 @@ serde_json = "1.0"
 urlencoding = "2.1.0" # For encoding the filename
 ```
 
-### Creating a file and a directory
-
-We need to create a file.
-However, creating a file in a non-existing directory will cause `no such file or directory` error.
-Thus, we need to firstly create a directory and create the file.
-
-```rust
-/// Create a directory and a file `root_dir/path` and write with `contents`
-fn create_dir_and_write(root_dir: &str, path: &str, contents: &str) -> Result<(), Error> {
-    // TODO: check the path is valid
-    let path: PathBuf = Path::new(&root_dir).join(Path::new(&path));
-    println!("path: {:?}", path);
-
-    // TODO: use BufReader
-    println!("updating the markdown file");
-
-    // Writing to a file
-
-    // If the parent directory does not exists, then we should create it first
-    let prefix = path.parent().unwrap();
-    std::fs::create_dir_all(prefix).unwrap();
-
-    // Write to a file
-    let mut file = File::create(&path)?;
-    file.write_all(&contents.as_bytes())
-        .expect("cannot write to a file");
-
-    return Ok(());
-}
-```
-
-### Deleting a directory
-
-```rust
-/// Remove directory recursively if it is empty
-/// TODO: Succeeding with error may not the smartest solution
-fn remove_dir(path: &Path) {
-    println!("removing dir: {:?}", path);
-
-    match std::fs::remove_dir(&path) {
-        Ok(()) => remove_dir(path.parent().unwrap()),
-        Err(_) => return,
-    }
-}
-```
-
 ### Handle POST and DELETE methods
 
 ```rust
@@ -321,48 +273,10 @@ use std::io::prelude::*;
 
 use actix_files;
 use actix_web::{middleware, web, App, Error, HttpRequest, HttpResponse, HttpServer};
-// use json::JsonValue;
 use openssl::ssl::{SslAcceptor, SslFiletype, SslMethod};
 use serde::{Deserialize, Serialize};
 
 use std::path::{Path, PathBuf};
-
-
-#[derive(Debug, Serialize, Deserialize)]
-struct ReqObj {
-    path: String,
-}
-
-/// This handler uses json extractor with limit
-/// GET the page for editing the page
-async fn get_edit_page(item: web::Json<ReqObj>, req: HttpRequest) -> Result<HttpResponse, Error> {
-    println!("get_edit_page");
-    println!("request: {:?}", req);
-    println!("model: {:?}", item);
-
-    // TODO: check the path is valid
-    let path: PathBuf = Path::new("public").join(Path::new(&item.path));
-    println!("path: {:?}", path);
-
-    // TODO: use BufReader (low priority)
-    let contents = std::fs::read_to_string(&path);
-
-    let contents = match contents {
-        Ok(contents) => contents,
-        Err(error) => match error.kind() {
-            io::ErrorKind::NotFound => String::from(""),
-            // if the file does not exists (that is, user is trying to create a new page),
-            // return default string (currently empty string)
-            other_error => {
-                panic!("Problem opening the file: {:?}", other_error)
-            }
-        },
-    };
-
-    println!("contents: {}", contents);
-
-    Ok(HttpResponse::Ok().json(contents)) // <- send json response
-}
 
 #[derive(Debug, Serialize, Deserialize)]
 struct NewPageObj {
@@ -371,7 +285,7 @@ struct NewPageObj {
 }
 
 /// This handler uses json extractor with limit
-async fn post_edited(item: web::Json<NewPageObj>, req: HttpRequest) -> Result<HttpResponse, Error> {
+async fn post(item: web::Json<NewPageObj>, req: HttpRequest) -> Result<HttpResponse, Error> {
     println!("post_edited");
     println!("request: {:?}", req);
     println!("model: {:?}", item);
@@ -387,6 +301,11 @@ async fn post_edited(item: web::Json<NewPageObj>, req: HttpRequest) -> Result<Ht
 
     // TODO: navigate to the new page created
     Ok(HttpResponse::Ok().json("created")) // <- send json response
+}
+
+#[derive(Debug, Serialize, Deserialize)]
+struct ReqObj {
+    path: String,
 }
 
 /// This handler uses json extractor with limit
