@@ -8,9 +8,9 @@ A hands on tutorial to make a simple wiki with Rust.
 
 [Here are the sample source](https://github.com/sano-jin/rust-hands-on-wiki/tree/master/client-side-intergration)
 
-In this section we will be adding JavaScript to jump to the editor and to update the edited page
+In this section we add JavaScript to jump to the editor and to update the edited page
 using fetch API.
-We are going to add the html and JavaScript code of the editor to the `public/layouts/` directory.
+We add the html and JavaScript code of the editor in the `public/layouts/` directory.
 Therefore, we firstly create the directory:
 
 ```sh

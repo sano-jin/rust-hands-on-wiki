@@ -9,7 +9,7 @@ A hands on tutorial to make a simple wiki with Rust.
 [Here are the sample source](https://github.com/sano-jin/rust-hands-on-wiki/tree/master/simple-wiki-backend)
 
 In this section, we parse the posted markdown and convert it to a html file.
-We will be saving the markdown file in `/public/edit directory` and html file in `/public/pages` directory.
+We save the markdown file in the `/public/edit` directory and the html file in the `/public/pages` directory.
 
 ### Add dependencies
 
@@ -30,11 +30,10 @@ and denote to use it in src/main.rs.
 use pulldown_cmark::{html, Options, Parser};
 ```
 
-Create `public/edit` and `public/pages`
 Since we are adding the new markdown files in the `public/edit` directory
 and the newly generated html files in the `public/pages` directory,
-we need to create the both directory.
-since generating the files without the directories will cause OS error `No such file or directory`.
+we need to create the both directory beforehand.
+Generating the files without the directories will cause OS error `No such file or directory`.
 
 ```sh
 cd public
@@ -53,7 +52,7 @@ public
 
 ### Convert markdown to html at the POST request
 
-Add the converter form markdown to html to the `post` function.
+Add the converter form markdown to html in the `post` function.
 
 ```rust
 // src/main.rs

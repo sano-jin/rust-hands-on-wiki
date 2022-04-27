@@ -8,7 +8,7 @@ A hands on tutorial to make a simple wiki with Rust.
 
 [Here are the sample source](https://github.com/sano-jin/rust-hands-on-wiki/tree/master/contents-management-server)
 
-In this section, we will extend the static server to contents management server.
+In this section, we extend the static file server to a contents management server.
 We will add post, delete method to enable CRUD (Create, Read, Update and Delete).
 
 ### API design
@@ -66,7 +66,7 @@ When we get POST request, then we need to
 1. obtain the file name and the contents to update from the body of the request and
 2. update the file with the contents.
 
-We will be using JSON to send the request with the file name and the new contents as
+We use JSON to send the request with the file name and the new contents as
 
 ```json
 {
@@ -87,7 +87,7 @@ struct NewPageObj {
 }
 ```
 
-The add the function handles POST method.
+Then add the function handles POST method.
 
 ```rust
 // src/main.rs
@@ -109,7 +109,7 @@ async fn post(item: web::Json<NewPageObj>) -> Result<HttpResponse, Error> {
 }
 ```
 
-Finally, add the function to the routing.
+Finally, add the function for routing.
 
 ```rust
 // src/main.rs
@@ -143,13 +143,13 @@ curl -kX GET https://127.0.0.1:8443/files/filename
 
 ### Handle DELETE method
 
-We will be handling DELETE method as well as the POST method.
+We handle DELETE method as well as the POST method.
 When we get POST request, then we need to
 
 1. obtain the file name to delete from the the request and
 2. delete the file.
 
-http DELETE method basically does not have it's body.
+Http DELETE method (basically) does not have it's body.
 Thus, we need to use the other way other than obtaining the file name information from the body.
 
 We are going to use query parameters this time.
@@ -170,7 +170,7 @@ struct QueryPath {
 }
 ```
 
-The add the function handles POST method.
+Then add the function handles POST method.
 
 ```rust
 // src/main.rs
@@ -189,7 +189,7 @@ async fn delete(item: web::Query<QueryPath>) -> Result<HttpResponse, Error> {
 }
 ```
 
-Finally, add the function to the routing.
+Finally, add the function for routing.
 
 ```rust
 // src/main.rs
