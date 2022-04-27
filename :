@@ -49,22 +49,11 @@ async fn post(item: web::Json<NewPageObj>) -> Result<HttpResponse, Error> {
     html::push_html(&mut html_buf, parser);
     println!("parsed: {}", html_buf);
 
-    // decode the path to obtain the title
-    let title = urlencoding::decode(&item.path).expect("cannot decode");
-
-    // Open the default file
-    let default_page = std::fs::read_to_string("public/layouts/page.html")?;
-    // Replace the title, path, contents
-    let page = default_page
-        .replace("TITLE", &title.into_owned())
-        .replace("PATH", &item.path)
-        .replace("BODY", &html_buf);
-
     // Update the file with the given contents
     let path: PathBuf = get_path("public/pages", &item.path);
     println!("writing to the file {:?}", path);
     let mut file = File::create(&path)?;
-    file.write_all(page.as_bytes())?;
+    file.write_all(html_buf.as_bytes())?;
 
     // TODO: navigate to the new page created
     let url = format!("/pages?path={}", &item.path);
@@ -99,6 +88,13 @@ async fn get_page(item: web::Query<QueryPath>) -> Result<HttpResponse, Error> {
     // Load the file
     let path = get_path("public/pages", &item.path);
     let contents = std::fs::read_to_string(&path)?;
+
+    // Open the default file
+    let default_page = std::fs::read_to_string("static/page.html")?;
+    let default_page = default_page
+        .replace("TITLE", &title.into_owned())
+        .replace("PATH", &item.path)
+        .replace("BODY", &html_buf);
 
     // Return the response and display the html file on the browser
     Ok(HttpResponse::Ok().content_type("text/html").body(contents))
