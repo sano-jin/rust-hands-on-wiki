@@ -8,5 +8,3 @@
   link: /simple-wiki-backend/
 - name: Client-integration
   link: /client-integration/
-- name: GitHub
-  link: https://github.com/sano-jin/rust-hands-on-wiki
