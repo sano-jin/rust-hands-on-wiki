@@ -7,4 +7,5 @@ defaults:
     values:
       fixed_navbar: top
       menubar_toc: true
+      permalink: pretty
       # layout: "default"
