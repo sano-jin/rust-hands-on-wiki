@@ -1,10 +1,12 @@
-- name: Https server
-  link: /https-server/
-- name: Static file server
-  link: /static-file-server/
-- name: Contents Management Server
-  link: /contents-management-server/
-- name: A simple wiki backend
-  link: /simple-wiki-backend/
-- name: Client-integration
-  link: /client-integration/
+- name: Tutorials
+  dropdown:
+    - name: Https server
+      link: /https-server/
+    - name: Static file server
+      link: /static-file-server/
+    - name: Contents Management Server
+      link: /contents-management-server/
+    - name: A simple wiki backend
+      link: /simple-wiki-backend/
+    - name: Client-integration
+      link: /client-integration/
