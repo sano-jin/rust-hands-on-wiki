@@ -5,6 +5,7 @@ defaults:
   - scope:
       path: "" # an empty string here means all files in the project
     values:
-      layout: "default"
       show_sidebar: true
       fixed_navbar: top
+      menubar_toc: true
+      # layout: "default"
