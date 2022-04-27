@@ -66,33 +66,9 @@ Add
 
 Store `recent_updates` the list of the title of the recent updated files.
 
-# Memo
+# What's next!
+
+Please contribute to the [Wiki.rs](https://github.com/sano-jin/wiki-rs) project.
+Send me a pull request!
 
 ![Demo](/docs/wiki-rs-demo.png)
-
-# API design
-
-## Front
-
-- 普通にアクセスして見る．
-- 今見ているページの markdown を編集して，それでページを更新する．
-  - edit button
-- 新しいページの markdown を編集して，それでページを更新する．
-  - create button
-
-## Backend API
-
-- GET `/page/xxxxxx`
-  - html ページのレスポンスを返す
-  - サーバ上のファイルから読み込む
-- GET `/edit?path=<Path to the page">`
-  - 編集用の markdown を返す
-  - サーバ上のファイルから読み込む
-- POST /edit
-  - body: `{path:"Path to the page", body: "The updated markdown"}`
-  - markdown を投げ，それで /xxxxxx.html を更新する
-  - そのページがもともと存在しない場合は新しく作る．
-  - サーバ上のファイルに書き出しておく
-- DELETE `/edit?path=<Path to the page>`
-  - /xxxxxx.html を消去する
-  - サーバ上のファイルは消去する
