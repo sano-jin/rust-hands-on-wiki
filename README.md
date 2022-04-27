@@ -6,7 +6,7 @@ A hands on tutorial to make a simple wiki with Rust.
 
 Please send me a pull-request to improve!
 
-# How to create your own wiki from scrarch
+# How to create your own wiki from scratch
 
 ## Prerequisites
 
