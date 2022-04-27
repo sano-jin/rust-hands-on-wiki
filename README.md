@@ -63,8 +63,7 @@ Add
 
 1. styling
 2. a list of recent updated pages.
-
-Store `recent_updates` the list of the title of the recent updated files.
+3. ...?
 
 # What's next!
 
