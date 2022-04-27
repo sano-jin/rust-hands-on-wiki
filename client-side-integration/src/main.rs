@@ -93,6 +93,39 @@ async fn get_page(item: web::Query<QueryPath>) -> Result<HttpResponse, Error> {
     Ok(HttpResponse::Ok().content_type("text/html").body(contents))
 }
 
+/// Read a file
+/// If the file doesn not exists, then return the default string
+fn read_with_default(path: &str, default: &str) -> String {
+    let contents = std::fs::read_to_string(&path);
+    match contents {
+        Ok(contents) => contents,
+        Err(error) => match error.kind() {
+            io::ErrorKind::NotFound => String::from(default),
+            other_error => panic!("Problem opening the file: {:?}", other_error),
+        },
+    }
+}
+
+/// This handler uses json extractor with limit
+/// GET the page for editing the page
+async fn get_editor(item: web::Query<QueryPath>) -> Result<HttpResponse, Error> {
+    println!("get_edit_page ? {:?}", item);
+    let path: PathBuf = get_path("public/edit", &item.path);
+    let contents = read_with_default(&path.to_string_lossy(), "");
+
+    // decode the path to obtain the title
+    let title = urlencoding::decode(&item.path).expect("cannot decode");
+
+    // Open the file for editing
+    let editor = std::fs::read_to_string("public/layouts/edit.html")?;
+    // Replace the contents
+    let editor = editor
+        .replace("TITLE", &title.into_owned())
+        .replace("MARKDOWN", &contents);
+
+    Ok(HttpResponse::Ok().content_type("text/html").body(editor))
+}
+
 /// simple handle
 async fn index(req: HttpRequest) -> Result<HttpResponse, Error> {
     println!("{:?}", req);
@@ -126,6 +159,7 @@ async fn main() -> io::Result<()> {
             )
             .service(
                 web::resource("/edit")
+                    .route(web::get().to(get_editor)) // GET the editor
                     .route(web::post().to(post)) // POST the new contents to update the file
                     .route(web::delete().to(delete)), // Delete the file
             )
