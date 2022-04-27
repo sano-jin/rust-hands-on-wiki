@@ -131,7 +131,7 @@ Test it with
 
 ```sh
 curl -H "content-type: application/json" -kX POST -d \
-    "{\"path\": \"filename.html\", \"body\": \"new contents\"}" \
+    "{\"path\": \"filename\", \"body\": \"new contents\"}" \
         https://localhost:8443/edit
 ```
 
