@@ -33,6 +33,7 @@ Add the following html file `public/layouts/edit.html`
 
 ```html
 <!-- public/layouts/edit.html -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -66,6 +67,7 @@ Here are the scripts added in the script tags `<script></script>`.
 
 ```javascript
 // scripts in the public/layouts/page.html
+
 window.addEventListener("DOMContentLoaded", () => {
   // 送信ボタンのHTMLを取得
   const btn_submit = document.getElementById("btn_submit");
@@ -208,6 +210,7 @@ at the Http GET request to the pages.
 
 ```html
 <!-- public/layouts/page.html -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -264,6 +267,7 @@ The new html is the following:
 
 ```html
 <!-- public/layouts/page.html -->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>

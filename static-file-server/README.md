@@ -31,6 +31,8 @@ in the dependency list in the `Cargo.toml`.
 Add
 
 ```rust
+// src/main.rs
+
 use actix_files;
 ```
 

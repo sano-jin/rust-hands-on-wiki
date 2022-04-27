@@ -193,7 +193,7 @@ enable viewing html files to deal with more complecated tasks later
   - サーバ上のファイルから読み込む
 
 ```rust
-// main.rs
+// src/main.rs
 
 /// GET the page
 async fn get_page(item: web::Query<QueryPath>) -> Result<HttpResponse, Error> {
@@ -211,7 +211,7 @@ async fn get_page(item: web::Query<QueryPath>) -> Result<HttpResponse, Error> {
 and add the routing to the function
 
 ```rust
-// main.rs
+// src/main.rs
 
   .service(
       web::resource("/pages").route(web::get().to(get_page)), // GET the page
