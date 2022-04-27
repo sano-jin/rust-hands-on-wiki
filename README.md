@@ -4,6 +4,8 @@ A hands on tutorial to make a simple wiki with Rust.
 
 [View on GitHub](https://github.com/sano-jin/rust-hands-on-wiki)
 
+Please send me a pull-request to improve!
+
 # How to create your own wiki from scrarch
 
 ## Prerequisites
