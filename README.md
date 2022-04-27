@@ -63,6 +63,7 @@ and add dependency
 
 ```toml
 # Cargo.toml
+
 [package]
 name = "wiki-rs" # The name of the project
 version = "0.1.0" # The version of the project
@@ -163,6 +164,8 @@ See <https://actix.rs/docs/static-files/>
 Add
 
 ```toml
+# Cargo.toml
+
 actix-files = "0.6.0"
 ```
 
@@ -179,6 +182,8 @@ use actix_files;
 and add
 
 ```rust
+// src/main.rs
+
     HttpServer::new(|| {
         App::new()
             // enable logger
@@ -211,6 +216,13 @@ create and add some test files in `/public` directory
 mkdir public
 cd public
 echo "This is a test" > test.html
+```
+
+The directory structure will become as follows:
+
+```
+public/
+└── test.html
 ```
 
 ### Run the backend and access
@@ -258,6 +270,8 @@ We will add post, delete method to enable CRUD (Create, Read, Update and Delete)
 Add some dependencies to handle json.
 
 ```toml
+# Cargo.toml
+
 json = "0.12"
 serde = { version = "1.0", features = ["derive"] } # to serialize/deserialize
 serde_json = "1.0"
@@ -303,6 +317,8 @@ We will be using JSON to send the request with the file name and the new content
 Therefore, we firstly add `struct` deriving `Serialize` and `Deserialize` to/from JSON from/to String (html body).
 
 ```rust
+// src/main.rs
+
 #[derive(Debug, Serialize, Deserialize)]
 struct NewPageObj {
     path: String,
@@ -313,6 +329,8 @@ struct NewPageObj {
 The add the function handles POST method.
 
 ```rust
+// src/main.rs
+
 /// Create and Update the file with POST method
 async fn post(item: web::Json<NewPageObj>) -> Result<HttpResponse, Error> {
     println!("post {:?}", item);
@@ -333,6 +351,8 @@ async fn post(item: web::Json<NewPageObj>) -> Result<HttpResponse, Error> {
 Finally, add the function to the routing.
 
 ```rust
+// src/main.rs
+
   // **Newly added here**
   // POST the new contents to update the file
   .service(web::resource("/edit").route(web::post().to(post)))
@@ -381,6 +401,8 @@ https://127.0.0.1:8443/edit?path=<filename>
 Therefore, we firstly add `struct` deriving `Serialize` and `Deserialize` to/from JSON from/to String (query parameters).
 
 ```rust
+// src/main.rs
+
 #[derive(Debug, Serialize, Deserialize)]
 struct QueryPath {
     path: String,
@@ -390,6 +412,8 @@ struct QueryPath {
 The add the function handles POST method.
 
 ```rust
+// src/main.rs
+
 /// Delete the file with DELETE method
 async fn delete(item: web::Query<QueryPath>) -> Result<HttpResponse, Error> {
     println!("delete ? {:?}", item);
@@ -407,6 +431,8 @@ async fn delete(item: web::Query<QueryPath>) -> Result<HttpResponse, Error> {
 Finally, add the function to the routing.
 
 ```rust
+// src/main.rs
+
   // POST the new contents to update the file
   .service(web::resource("/edit")
     .route(web::post().to(post))
@@ -451,6 +477,8 @@ Add dependency to `Cargo.toml`.
 We will be using `pulldown_cmark` to convert markdown to html.
 
 ```toml
+# Cargo.toml
+
 pulldown-cmark = { version = "0.9.1", default-features = false }
 ```
 
@@ -479,9 +507,9 @@ mkdir pages
 The directory structure of the `public` directory is now as the follows:
 
 ```
-public
-├── edit
-├── pages
+public/
+├── edit/
+├── pages/
 └── test.html
 ```
 
@@ -490,6 +518,8 @@ public
 Add the converter form markdown to html to the `post` function.
 
 ```rust
+// src/main.rs
+
 /// Create and Update the file with POST method
 async fn post(item: web::Json<NewPageObj>) -> Result<HttpResponse, Error> {
     println!("post {:?}", item);
@@ -545,10 +575,10 @@ This will generate (or update) the new 2 files `public/edit/filename` and `publi
 Here are the new directory structure:
 
 ```
-public
-├── edit
+public/
+├── edit/
 │   └── filename
-├── pages
+├── pages/
 │   └── filename
 └── test.html
 ```
@@ -564,6 +594,8 @@ curl -kX GET https://127.0.0.1:8443/files/pages/filename
 Delete both the markdown and the html file at the DELETE request.
 
 ```rust
+// src/main.rs
+
 /// Delete the file with DELETE method
 async fn delete(item: web::Query<QueryPath>) -> Result<HttpResponse, Error> {
     println!("delete ? {:?}", item);
@@ -599,9 +631,9 @@ This will delete the 2 files `public/edit/filename` and `public/pages/filename`.
 Here are the updated directory structure:
 
 ```
-public
-├── edit
-├── pages
+public/
+├── edit/
+├── pages/
 └── test.html
 ```
 
@@ -662,9 +694,28 @@ which should display the updated html (with proper rendering).
 
 ## Client-side integration
 
-Add JavaScript to jump to the editor and to update the edited page.
+[Here are the sample source](https://github.com/sano-jin/rust-hands-on-wiki/tree/master/client-side-intergration)
 
-Using fetch API.
+In this section we will be adding JavaScript to jump to the editor and to update the edited page
+using fetch API.
+We are going to add the html and JavaScript code of the editor to the `public/layouts/` directory.
+Therefore, we firstly create the directory:
+
+```sh
+mkdir public/layouts
+```
+
+Then the directory structure will become as follows:
+
+```
+public/
+├── edit/
+├── layouts/
+├── pages/
+└── test.html
+```
+
+### File editor
 
 ## Some improvements
 
