@@ -19,8 +19,9 @@ Add dependency to Cargo.toml. We will be using pulldown_cmark to convert markdow
 # Cargo.toml
 
 pulldown-cmark = { version = "0.9.1", default-features = false }
-and denote to use it in src/main.rs.
 ```
+
+and denote to use it in src/main.rs.
 
 ```rust
 // src/main.rs
