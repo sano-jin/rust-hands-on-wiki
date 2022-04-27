@@ -1,4 +1,4 @@
-Preparation in progress...
+_Preparation in progress..._
 
 A hands on tutorial to make a simple wiki with Rust.
 
@@ -391,7 +391,7 @@ The add the function handles POST method.
 
 ```rust
 /// Delete the file with DELETE method
-async fn delete(item: web::Query<ReqObj>) -> Result<HttpResponse, Error> {
+async fn delete(item: web::Query<QueryPath>) -> Result<HttpResponse, Error> {
     println!("delete ? {:?}", item);
 
     let path: PathBuf = get_path("public", &item.path);
@@ -425,7 +425,7 @@ cargo run
 Test it with
 
 ```sh
-curl -kX DELETE "https://localhost:8443/edit?path=<filename>"
+curl -kX DELETE "https://localhost:8443/edit?path=filename"
 ```
 
 and then check with
@@ -461,6 +461,28 @@ and denote to use it in `src/main.rs`.
 
 // Newly added pulldown_cmark
 use pulldown_cmark::{html, Options, Parser};
+```
+
+### Create `public/edit` and `public/pages`
+
+Since we are adding the new markdown files in the `public/edit` directory and
+the newly generated html files in the `public/pages` directory,
+we need to create the both directory.
+Generating the files without the directories will cause OS error `No such file or directory`.
+
+```sh
+cd public
+mkdir edit
+mkdir pages
+```
+
+The directory structure of the `public` directory is now as the follows:
+
+```
+public
+├── edit
+├── pages
+└── test.html
 ```
 
 ### Convert markdown to html at the POST request
@@ -503,13 +525,47 @@ async fn post(item: web::Json<NewPageObj>) -> Result<HttpResponse, Error> {
 }
 ```
 
+#### Test the POST request
+
+Run
+
+```sh
+cargo run
+```
+
+ant test it with
+
+```sh
+curl -H "content-type: application/json" -kX POST -d \
+    "{\"path\": \"filename\", \"body\": \"# This is a title\"}" \
+        https://localhost:8443/edit
+```
+
+This will generate (or update) the new 2 files `public/edit/filename` and `public/pages/filename`.
+Here are the new directory structure:
+
+```
+public
+├── edit
+│   └── filename
+├── pages
+│   └── filename
+└── test.html
+```
+
+Then check with
+
+```sh
+curl -kX GET https://127.0.0.1:8443/files/pages/filename
+```
+
 ### Delete both the markdown and the html files
 
 Delete both the markdown and the html file at the DELETE request.
 
 ```rust
 /// Delete the file with DELETE method
-async fn delete(item: web::Query<ReqObj>) -> Result<HttpResponse, Error> {
+async fn delete(item: web::Query<QueryPath>) -> Result<HttpResponse, Error> {
     println!("delete ? {:?}", item);
 
     // delete the markdown file
@@ -525,12 +581,7 @@ async fn delete(item: web::Query<ReqObj>) -> Result<HttpResponse, Error> {
 }
 ```
 
-### Handling GET request to the pages
-
-not serving files but viewing html.
-TODO: add here
-
-### Test
+#### Test the DELETE request
 
 Run
 
@@ -538,35 +589,76 @@ Run
 cargo run
 ```
 
-#### POST
-
-Test it with
+ant test it with
 
 ```sh
-curl -H "content-type: application/json" -kX POST -d \
-    "{\"path\": \"filename\", \"body\": \"new contents\"}" \
-        https://localhost:8443/edit
+curl -kX DELETE "https://localhost:8443/edit?path=filename"
 ```
 
-and then check with
+This will delete the 2 files `public/edit/filename` and `public/pages/filename`.
+Here are the updated directory structure:
 
-```sh
-curl -kX GET https://127.0.0.1:8443/files/pages/filename
+```
+public
+├── edit
+├── pages
+└── test.html
 ```
 
-#### DELETE
-
-Test it with
-
-```sh
-curl -kX DELETE "https://localhost:8443/edit?path=<filename>"
-```
-
-and then check with
+You may want to check that the GET request to the deleted file fails
 
 ```sh
 curl -kX GET https://127.0.0.1:8443/files/pages/filename
 ```
+
+### Viewing html at the GET request
+
+We used actix-files to show/download files but we are going to implement the other our own new function to
+enable viewing html files to deal with more complecated tasks later
+(such as displaying the access date and so on).
+
+- Read: GET `/pages?path=xxxxxx`
+  - html ページのレスポンスを返す
+  - サーバ上のファイルから読み込む
+
+```rust
+// main.rs
+
+/// GET the page
+async fn get_page(item: web::Query<QueryPath>) -> Result<HttpResponse, Error> {
+    println!("get_page ? {:?}", item);
+
+    // Load the file
+    let path = get_path("public/pages", &item.path);
+    let contents = std::fs::read_to_string(&path)?;
+
+    // Return the response and display the html file on the browser
+    Ok(HttpResponse::Ok().content_type("text/html").body(contents))
+}
+```
+
+and add the routing to the function
+
+```rust
+// main.rs
+
+  .service(
+      web::resource("/pages").route(web::get().to(get_page)), // GET the page
+  )
+```
+
+#### Test with the GET request to the pages
+
+Run
+
+```sh
+cargo run
+```
+
+Add files with the POST method we have tested before.
+
+and then open <https://127.0.0.1:8443/pages?path=filename> on your browser,
+which should display the updated html (with proper rendering).
 
 ## Client-side integration
 

@@ -29,6 +29,7 @@ async fn post(item: web::Json<NewPageObj>) -> Result<HttpResponse, Error> {
 
     // Update the file with the given contents
     let path: PathBuf = get_path("public/edit", &item.path);
+    println!("writing to the file {:?}", path);
     let mut file = File::create(&path)?;
     file.write_all(item.body.as_bytes())?;
 
@@ -50,6 +51,7 @@ async fn post(item: web::Json<NewPageObj>) -> Result<HttpResponse, Error> {
 
     // Update the file with the given contents
     let path: PathBuf = get_path("public/pages", &item.path);
+    println!("writing to the file {:?}", path);
     let mut file = File::create(&path)?;
     file.write_all(html_buf.as_bytes())?;
 
@@ -58,12 +60,12 @@ async fn post(item: web::Json<NewPageObj>) -> Result<HttpResponse, Error> {
 }
 
 #[derive(Debug, Serialize, Deserialize)]
-struct ReqObj {
+struct QueryPath {
     path: String,
 }
 
 /// Delete the file with DELETE method
-async fn delete(item: web::Query<ReqObj>) -> Result<HttpResponse, Error> {
+async fn delete(item: web::Query<QueryPath>) -> Result<HttpResponse, Error> {
     println!("delete ? {:?}", item);
 
     // delete the markdown file
@@ -76,6 +78,18 @@ async fn delete(item: web::Query<ReqObj>) -> Result<HttpResponse, Error> {
 
     // TODO: navigate to the root page
     Ok(HttpResponse::Ok().json("deleted"))
+}
+
+/// GET the page
+async fn get_page(item: web::Query<QueryPath>) -> Result<HttpResponse, Error> {
+    println!("get_page ? {:?}", item);
+
+    // Load the file
+    let path = get_path("public/pages", &item.path);
+    let contents = std::fs::read_to_string(&path)?;
+
+    // Return the response and display the html file on the browser
+    Ok(HttpResponse::Ok().content_type("text/html").body(contents))
 }
 
 /// simple handle
@@ -106,6 +120,9 @@ async fn main() -> io::Result<()> {
             .wrap(middleware::Logger::default())
             // with path parameters
             // **Newly added here**
+            .service(
+                web::resource("/pages").route(web::get().to(get_page)), // GET the page
+            )
             .service(
                 web::resource("/edit")
                     .route(web::post().to(post)) // POST the new contents to update the file
