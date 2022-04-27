@@ -6,7 +6,7 @@ A hands on tutorial to make a simple wiki with Rust.
 
 # How to create your own wiki from scrarch
 
-## Prerequisties
+## Prerequisites
 
 Install Cargo.
 See <https://www.rust-lang.org/tools/install> to setup rustup and cargo.
