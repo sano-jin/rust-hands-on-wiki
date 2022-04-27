@@ -9,7 +9,7 @@ A hands on tutorial to make a simple wiki with Rust.
 [Here are the sample source](https://github.com/sano-jin/rust-hands-on-wiki/tree/master/simple-wiki-backend)
 
 In this section, we parse the posted markdown and convert it to a html file.
-We will be saving the markdown file in /public/edit directory and html file in /public/pages directory.
+We will be saving the markdown file in `/public/edit directory` and html file in `/public/pages` directory.
 
 ### Add dependencies
 
