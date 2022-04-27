@@ -2,7 +2,7 @@ _Preparation in progress..._
 
 A hands on tutorial to make a simple wiki with Rust.
 
-# How to create a own wiki from scrarch
+# How to create your own wiki from scrarch
 
 ## Static file server
 
@@ -10,7 +10,7 @@ A hands on tutorial to make a simple wiki with Rust.
 
 In this section, we let the server to desplay the files at `/public/<filename>`
 if the user access `/files/<filename>`.
-i.e. static server.
+i.e. static file server.
 
 See <https://actix.rs/docs/static-files/>
 

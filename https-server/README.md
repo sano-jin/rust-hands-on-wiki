@@ -2,9 +2,9 @@ _Preparation in progress..._
 
 A hands on tutorial to make a simple wiki with Rust.
 
-# How to create a own wiki from scrarch
+# How to create your own wiki from scrarch
 
-## Implement Https server
+## Https server
 
 [Here are the sample source](https://github.com/sano-jin/rust-hands-on-wiki/tree/master/https-server)
 
