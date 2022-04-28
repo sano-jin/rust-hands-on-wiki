@@ -48,6 +48,11 @@ Add
 ```rust
 // src/main.rs
 
+// Newly added here
+use std::fs::File;
+use std::io::prelude::*;
+use serde::{Deserialize, Serialize};
+use std::path::{Path, PathBuf};
 use urlencoding;
 
 /// Get the new path <root_dir>/<encoded filename>
