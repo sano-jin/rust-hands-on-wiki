@@ -49,7 +49,7 @@ and add
             // with path parameters
             // **Newly added here**
             // GET /files/**/*.html and return the file /public/**/*.html
-            .service(fs::Files::new("/files", "public").show_files_listing())
+            .service(actix_files::Files::new("/files", "public").show_files_listing())
 
             // register simple handler, handle all methods
             .service(web::resource("/index.html").to(index))
