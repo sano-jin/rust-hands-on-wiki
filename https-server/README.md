@@ -1,4 +1,7 @@
-# A hands-on tutorial of web development in Rust for absolute beginners
+---
+title: A hands-on tutorial of web development in Rust for absolute beginners
+subtitle: Https server
+---
 
 ## Https server
 
