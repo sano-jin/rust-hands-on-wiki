@@ -1,6 +1,4 @@
-A hands-on tutorial of web development in Rust for absolute beginners
-
-# How to create your own wiki from scratch
+# A hands-on tutorial of web development in Rust for absolute beginners
 
 ## Https server
 
