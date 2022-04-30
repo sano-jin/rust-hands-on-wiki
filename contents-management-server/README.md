@@ -3,22 +3,18 @@
 [Here are the sample source](https://github.com/sano-jin/rust-hands-on-wiki/tree/master/contents-management-server)
 
 In this section, we extend the static file server to a contents management server.
-We will add post, delete method to enable CRUD (Create, Read, Update and Delete).
+We will add POST and DELETE method to enable CRUD (Create, Read, Update and Delete).
 
 ### API design
 
 - Read: GET `/files/xxxxxx`
-  - html ページのレスポンスを返す
-  - サーバ上のファイルから読み込む
+  - Serve the file with the given name on the server.
   - We have already implemented this in the previous section.
-- Create and Update: POST /edit
+- Create and Update: `POST /edit`
   - body: `{path:"Path to the page", body: "The updated file"}`
-  - markdown を投げ，それで /xxxxxx.html を更新する
-  - そのページがもともと存在しない場合は新しく作る．
-  - サーバ上のファイルに書き出しておく
-- Delete: DELETE `/edit?path=<Path to the page>`
-  - /xxxxxx.html を消去する
-  - サーバ上のファイルは消去する
+  - Post the filename and the path and create or update the file on the server.
+- Delete: DELETE `/edit?path=<filename>`
+  - Delete the file `<filename>` on the server
 
 ## Add dependencies
 

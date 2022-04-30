@@ -120,9 +120,9 @@ We will replace the preset contents with the previous markdown
 at the Http GET request to the editor.
 The newly added API is follows:
 
-- GET `/edit?path=xxxxxx`
-  - Get the editor with the previous markdown of the xxxxxx as the preset contents
-  - サーバ上のファイルから読み込む
+- GET `/edit?path=<filename>`
+  - Get the editor with the previous markdown of the file `<filename>` as the preset contents
+  - Load the markdown from the `public/edit/<filename>`
 
 Notice that the path given here may be the path to a non-existing files
 since this can be used to newly create a file.

@@ -3,7 +3,8 @@
 [Here are the sample source](https://github.com/sano-jin/rust-hands-on-wiki/tree/master/simple-wiki-backend)
 
 In this section, we parse the posted markdown and convert it to a html file.
-We save the markdown file in the `/public/edit` directory and the html file in the `/public/pages` directory.
+We save the markdown file in the `/public/edit` directory and
+the html file in the `/public/pages` directory.
 
 ## Add dependencies
 
@@ -181,9 +182,8 @@ We used actix-files to show/download files but we are going to implement the oth
 enable viewing html files to deal with more complecated tasks later
 (such as displaying the access date and so on).
 
-- Read: GET `/pages?path=xxxxxx`
-  - html ページのレスポンスを返す
-  - サーバ上のファイルから読み込む
+- Read: GET `/pages?path=<filename>`
+  - Render the html file `<filename>` on the server.
 
 ```rust
 // src/main.rs
