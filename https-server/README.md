@@ -1,9 +1,4 @@
----
-title: A hands-on tutorial of web development in Rust for absolute beginners
-subtitle: Https server
----
-
-## Https server
+# Https server
 
 [Here are the sample source](https://github.com/sano-jin/rust-hands-on-wiki/tree/master/https-server)
 
@@ -12,14 +7,14 @@ In this section, we implement a simple https server that returns a constant stri
 TODO: Modify this to firstly implement a http server
 (not implementing https from the start)
 
-### Create a new project
+## Create a new project
 
 ```sh
-cargo new wiki-rs # create a new rust project named wiki-rs
+cargo new wiki-rs  create a new rust project named wiki-rs
 cd wiki-rs
 ```
 
-### Enable CA
+## Enable CA
 
 See <https://github.com/actix/examples/tree/master/https-tls/openssl> and
 follow the instructions on README.md to enable CA.
@@ -40,7 +35,7 @@ We will be using [mkcert](https://github.com/FiloSottile/mkcert).
    rename the `127.0.0.1-key.pem` file with `key.pem` and
    the `127.0.0.1.pem` file with `cert.pem`.
 
-### Add dependency
+## Add dependency
 
 See <https://github.com/actix/examples/tree/master/https-tls/openssl>
 and add dependency
@@ -51,18 +46,18 @@ and add dependency
 # Cargo.toml
 
 [package]
-name = "wiki-rs" # The name of the project
-version = "0.1.0" # The version of the project
-edition = "2021" # The version of the rust we will be using
+name = "wiki-rs"  # The name of the project
+version = "0.1.0"  # The version of the project
+edition = "2021"  # The version of the rust we will be using
 
-# Add the following dependency
+ Add the following dependency
 [dependencies]
-actix-web = { version = "4", features = ["openssl"]  } # Use actix-web to implement a backend server
+actix-web = { version = "4", features = ["openssl"] } # Use actix-web to implement a backend server
 env_logger = "0.9" # for logging
 openssl = "0.10" # for TLS
 ```
 
-### Implement with actix-web
+## Implement with actix-web
 
 Implement `src/main.rs`
 following <https://github.com/actix/examples/blob/master/https-tls/openssl/src/main.rs>.
@@ -117,7 +112,7 @@ async fn main() -> io::Result<()> {
 }
 ```
 
-### Run the backend and access
+## Run the backend and access
 
 ```sh
 cargo run

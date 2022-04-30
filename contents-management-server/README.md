@@ -1,6 +1,4 @@
-# A hands-on tutorial of web development in Rust for absolute beginners
-
-## Contents management server
+# Contents management server
 
 [Here are the sample source](https://github.com/sano-jin/rust-hands-on-wiki/tree/master/contents-management-server)
 
@@ -22,7 +20,7 @@ We will add post, delete method to enable CRUD (Create, Read, Update and Delete)
   - /xxxxxx.html を消去する
   - サーバ上のファイルは消去する
 
-### Add dependencies
+## Add dependencies
 
 Add some dependencies to handle json.
 
@@ -35,7 +33,7 @@ serde_json = "1.0"
 urlencoding = "2.1.0" # For encoding the filename
 ```
 
-### Encoding filename
+## Encoding filename
 
 To make it easy to handle files, we encode their names with `urlencodings::encode`
 
@@ -60,7 +58,7 @@ fn get_path(root_dir: &str, filename: &str) -> PathBuf {
 
 to the `src/main.rs`
 
-### Handle POST method
+## Handle POST method
 
 When we get POST request, then we need to
 
@@ -120,7 +118,7 @@ Finally, add the function for routing.
   .service(web::resource("/edit").route(web::post().to(post)))
 ```
 
-#### Test
+### Test
 
 Run
 
@@ -142,7 +140,7 @@ and then check with
 curl -kX GET https://127.0.0.1:8443/files/filename
 ```
 
-### Handle DELETE method
+## Handle DELETE method
 
 We handle DELETE method as well as the POST method.
 When we get POST request, then we need to
@@ -202,7 +200,7 @@ Finally, add the function for routing.
   )
 ```
 
-#### Test
+### Test
 
 Run
 

@@ -1,8 +1,4 @@
-# A hands-on tutorial of web development in Rust for absolute beginners
-
-# How to create your own wiki from scrarch
-
-## Static file server
+# Static file server
 
 [Here are the sample source](https://github.com/sano-jin/rust-hands-on-wiki/tree/master/static-file-server)
 
@@ -12,7 +8,7 @@ i.e. static file server.
 
 See <https://actix.rs/docs/static-files/>
 
-### Add dependencies
+## Add dependencies
 
 Add
 
@@ -24,7 +20,7 @@ actix-files = "0.6.0"
 
 in the dependency list in the `Cargo.toml`.
 
-### Add routing to `/public` directory
+## Add routing to `/public` directory
 
 Add
 
@@ -63,7 +59,7 @@ and add
     .await
 ```
 
-### Add some test files and test
+## Add some test files and test
 
 create and add some test files in `/public` directory
 
@@ -80,7 +76,7 @@ public/
 └── test.html
 ```
 
-### Run the backend and access
+## Run the backend and access
 
 ```sh
 cargo run

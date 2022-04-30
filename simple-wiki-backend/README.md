@@ -1,13 +1,11 @@
-# A hands-on tutorial of web development in Rust for absolute beginners
-
-## A simple wiki backend -- Markdown parsing and generating html
+# A simple wiki backend -- Markdown parsing and generating html
 
 [Here are the sample source](https://github.com/sano-jin/rust-hands-on-wiki/tree/master/simple-wiki-backend)
 
 In this section, we parse the posted markdown and convert it to a html file.
 We save the markdown file in the `/public/edit` directory and the html file in the `/public/pages` directory.
 
-### Add dependencies
+## Add dependencies
 
 Add dependency to Cargo.toml. We will be using pulldown_cmark to convert markdown to html.
 
@@ -46,7 +44,7 @@ public
 └── test.html
 ```
 
-### Convert markdown to html at the POST request
+## Convert markdown to html at the POST request
 
 Add the converter form markdown to html in the `post` function.
 
@@ -89,7 +87,7 @@ async fn post(item: web::Json<NewPageObj>) -> Result<HttpResponse, Error> {
 }
 ```
 
-#### Test the POST request
+### Test the POST request
 
 Run
 
@@ -123,7 +121,7 @@ Then check with
 curl -kX GET https://127.0.0.1:8443/files/pages/filename
 ```
 
-### Delete both the markdown and the html files
+## Delete both the markdown and the html files
 
 Delete both the markdown and the html file at the DELETE request.
 
@@ -147,7 +145,7 @@ async fn delete(item: web::Query<QueryPath>) -> Result<HttpResponse, Error> {
 }
 ```
 
-#### Test the DELETE request
+### Test the DELETE request
 
 Run
 
@@ -177,7 +175,7 @@ You may want to check that the GET request to the deleted file fails
 curl -kX GET https://127.0.0.1:8443/files/pages/filename
 ```
 
-### Viewing html at the GET request
+## Viewing html at the GET request
 
 We used actix-files to show/download files but we are going to implement the other our own new function to
 enable viewing html files to deal with more complecated tasks later
@@ -213,7 +211,7 @@ and add the routing to the function
   )
 ```
 
-#### Test with the GET request to the pages
+### Test with the GET request to the pages
 
 Run
 
