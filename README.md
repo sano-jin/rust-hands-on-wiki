@@ -31,7 +31,7 @@ In this section, we implement a simple https server that returns a constant stri
 
 [Here are the sample source](https://github.com/sano-jin/rust-hands-on-wiki/tree/master/static-file-server)
 
-In this section, we let the server to display some static files.
+In this section, we let the server to serve files.
 
 ## [Contents management server](./contents-management-server)
 
