@@ -129,8 +129,8 @@ cargo run
 Test it with
 
 ```sh
-curl -H "content-type: application/json" -kX POST -d \
-    "{\"path\": \"filename\", \"body\": \"new contents\"}" \
+curl -H 'content-type: application/json' -kX POST -d \
+    '{"path": "filename", "body": "new contents"}' \
         https://localhost:8443/edit
 ```
 
@@ -211,7 +211,7 @@ cargo run
 Test it with
 
 ```sh
-curl -kX DELETE "https://localhost:8443/edit?path=filename"
+curl -kX DELETE https://localhost:8443/edit?path=filename
 ```
 
 and then check with

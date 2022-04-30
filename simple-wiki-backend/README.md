@@ -98,8 +98,8 @@ cargo run
 ant test it with
 
 ```sh
-curl -H "content-type: application/json" -kX POST -d \
-    "{\"path\": \"filename\", \"body\": \"# This is a title\"}" \
+curl -H 'content-type: application/json' -kX POST -d \
+    '{"path": "filename", "body": "# This is a title"}' \
         https://localhost:8443/edit
 ```
 
