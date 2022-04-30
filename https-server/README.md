@@ -1,6 +1,4 @@
-_Preparation in progress..._
-
-A hands on tutorial to make a simple wiki with Rust.
+A hands-on tutorial of web development in Rust for absolute beginners
 
 # How to create your own wiki from scratch
 

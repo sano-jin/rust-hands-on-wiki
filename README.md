@@ -1,12 +1,9 @@
-_Preparation in progress..._
+# A hands-on tutorial of web development in Rust for absolute beginners
 
-A hands on tutorial to make a simple wiki with Rust.
+> A hands on tutorial to make a simple wiki with Rust.
+> Please send me a pull-request to improve!
 
 [View on GitHub](https://github.com/sano-jin/rust-hands-on-wiki)
-
-Please send me a pull-request to improve!
-
-# How to create your own wiki from scratch
 
 ## Prerequisites
 
@@ -27,16 +24,14 @@ rustup update
 
 In this section, we implement a simple https server that returns a constant string message.
 
-TODO: Modify this to firstly implement a http server
-(not implementing https from the start)
+> TODO: Modify this to firstly implement a http server
+> (not implementing https from the start)
 
 ## [Static file server](./static-file-server)
 
 [Here are the sample source](https://github.com/sano-jin/rust-hands-on-wiki/tree/master/static-file-server)
 
-In this section, we let the server to display the files at `/public/<filename>`
-if the user accesses `/files/<filename>`.
-i.e. static server.
+In this section, we let the server to display some static files.
 
 ## [Contents management server](./contents-management-server)
 
