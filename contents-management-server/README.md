@@ -7,12 +7,11 @@ We will add POST and DELETE method to enable CRUD (Create, Read, Update and Dele
 
 ### API design
 
-- Read: GET `/files/xxxxxx`
-  - Serve the file with the given name on the server.
+- Read: GET `/files/<filename>`
+  - Serve the file with the given name `<filename>` on the server.
   - We have already implemented this in the previous section.
-- Create and Update: `POST /edit`
-  - body: `{path:"Path to the page", body: "The updated file"}`
-  - Post the filename and the path and create or update the file on the server.
+- Create and Update: `POST /edit {path:"<filename>", body: "<contents>"}`
+  - Post the file path `<filename>` and the contents of the file `<contents>` and create or update the file on the server.
 - Delete: DELETE `/edit?path=<filename>`
   - Delete the file `<filename>` on the server
 
@@ -139,7 +138,7 @@ curl -kX GET https://127.0.0.1:8443/files/filename
 ## Handle DELETE method
 
 We handle DELETE method as well as the POST method.
-When we get POST request, then we need to
+When we get DELETE request, then we need to
 
 1. obtain the file name to delete from the the request and
 2. delete the file.
