@@ -4,22 +4,26 @@
 
 In this section, we implement a simple https server that returns a constant string message.
 
-TODO: Modify this to firstly implement a http server
-(not implementing https from the start)
+> TODO: Modify this to firstly implement a http server
+> (not implementing https from the start)
 
 HTTP is an acronym for Hyper Text Transfer Protocol.
 It defines the way how files transfer through the internet from/to server to/from client (your browser).
-We use this daily since every web site use this protocol to display the contents on its server. For example, you can see the hidden **http** word in Google's site <https://www.google.com>.
+We use this daily since every web site use this protocol to display the contents on its server.
+For example, you can see the hidden **http** word in Google's site <https://www.google.com>.
 
-However, HTTP does not provide (defines) the way to authorize the server and secure the file transportation network: you may be accessing to a fake server without leagal authentication and it is easy for others to see what you are getting/posting through the internet, which may lead to severe security issues.
+However, HTTP does not provide (defines) the way to authorize the server and secure the file transportation network:
+you may be accessing to a fake server without leagal authentication and
+it is easy for others to see what you are getting/posting through the internet, which may lead to severe security issues.
 Therefore, we usually use HTTPS, Secure HTTP, which authorize the server
 and encrypt the file transportation.
-Notice that Google's site <https://www.google.com> also uses HTTPS instead of HTTP without S (Google also provides <http://www.google.com> but you will be redirected to the HTTPS site if you access this).
+Notice that Google's site <https://www.google.com> also uses HTTPS instead of HTTP
+(Google also provides <http://www.google.com> but you will be redirected to the HTTPS site even if you access this).
 
 To enable HTTPS, we firstly need to authenticate the server.
 It is common to use letsencrypt in the production level (you may use this if you want in this hands-on).
 However since we are going to develop software locally, it is enough to authorize locally.
-To do this, we use mkcert.
+To do this, we use [mkcert](https://github.com/FiloSottile/mkcert) in this tutorial.
 
 ## Create a new project
 
