@@ -5,6 +5,14 @@
 
 [View on GitHub](https://github.com/sano-jin/rust-hands-on-wiki)
 
+This is a tutorial for those who are new to web development and/or Rust language.
+In this hands-on, we will implement a simple blog system, 
+which can post markdown and display the transformed html on your browser.
+We have separated the contents into small sections so that it will be easy to follow.
+We have prepared the complete source code for each section:
+you can check them if you got confused with the tutorial.
+
+
 ## Prerequisites
 
 Install Cargo.
