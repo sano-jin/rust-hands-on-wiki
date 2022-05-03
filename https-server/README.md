@@ -50,7 +50,7 @@ name = "wiki-rs"  # The name of the project
 version = "0.1.0"  # The version of the project
 edition = "2021"  # The version of the rust we will be using
 
- Add the following dependency
+# Add the following dependency
 [dependencies]
 actix-web = { version = "4", features = ["openssl"] } # Use actix-web to implement a backend server
 env_logger = "0.9" # for logging
