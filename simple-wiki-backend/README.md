@@ -178,8 +178,8 @@ curl -kX GET https://127.0.0.1:8443/files/pages/filename
 
 ## Viewing html at the GET request
 
-We used actix-files to show/download files but we are going to implement the other our own new function to
-enable viewing html files to deal with more complecated tasks later
+We used actix-files to show/download files but we are going to implement another function on our own to
+enable viewing html files to deal with more complicated tasks later
 (such as displaying the access date and so on).
 
 - Read: GET `/pages?path=<filename>`
